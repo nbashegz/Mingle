@@ -11,21 +11,38 @@ public class MingleDBContext : IdentityDbContext<AppUser, AppRole, int, Identity
     {
     }
 
-    public DbSet<Photo>? Photos {get;set;}
+    public DbSet<Photo>? Photos { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
         builder.Entity<AppUser>()
+        .ToTable("Users")
         .HasMany(ur => ur.UserRoles)
         .WithOne(ur => ur.User)
         .HasForeignKey(ur => ur.UserId)
         .IsRequired();
 
         builder.Entity<AppRole>()
+        .ToTable("Roles")
             .HasMany(Ur => Ur.UserRoles)
             .WithOne(Ur => Ur.Role)
             .HasForeignKey(Ur => Ur.UserId)
             .IsRequired();
+
+        builder.Entity<IdentityUserClaim<int>>()
+        .ToTable("UserClaims");
+
+        builder.Entity<IdentityUserLogin<int>>()
+        .ToTable("UserLogins");
+
+        builder.Entity<IdentityUserToken<int>>()
+        .ToTable("UserTokens");
+
+        builder.Entity<IdentityRoleClaim<int>>()
+        .ToTable("RoleClaims");
+
+        builder.Entity<AppUserRole>()
+        .ToTable("UserRoles");
     }
 }

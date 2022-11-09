@@ -1,4 +1,6 @@
 using API.Data;
+using API.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -20,6 +22,18 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
+
+//identity
+builder.Services
+.AddIdentityCore<AppUser>(options => options.User.RequireUniqueEmail = true)
+.AddRoles<AppRole>()
+.AddRoleManager<RoleManager<AppRole>>()
+.AddSignInManager<SignInManager<AppUser>>()
+.AddRoleValidator<RoleValidator<AppRole>>()
+.AddEntityFrameworkStores<MingleDBContext>();
+
+builder.Services.AddAuthentication();
+//database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MingleDBContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
@@ -33,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.MapControllers();
 

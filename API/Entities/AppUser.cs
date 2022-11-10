@@ -10,7 +10,7 @@ public string Lastname { get; set; } = null!;
 
 public string Gender {get; set; } = null!;
 
-public string DateOfBirth {get; set;} = null!;
+public DateTime DateOfBirth {get; set;}
 
 public DateTimeOffset DateCreated {get; set;} = DateTimeOffset.UtcNow;
 
@@ -18,9 +18,9 @@ public DateTimeOffset LastActive {get; set;} = DateTimeOffset.UtcNow;
 
 public string? Interests {get; set;}
 
-public string City {get; set;} = null!;
+public string? City {get; set;}
 
-public string Country {get; set;} = null!;
+public string? Country {get; set;}
 
 public string? Introduction {get; set;}
 

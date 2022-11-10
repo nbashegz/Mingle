@@ -27,7 +27,7 @@ public class MingleDBContext : IdentityDbContext<AppUser, AppRole, int, Identity
         .ToTable("Roles")
             .HasMany(Ur => Ur.UserRoles)
             .WithOne(Ur => Ur.Role)
-            .HasForeignKey(Ur => Ur.UserId)
+            .HasForeignKey(Ur => Ur.RoleId)
             .IsRequired();
 
         builder.Entity<IdentityUserClaim<int>>()

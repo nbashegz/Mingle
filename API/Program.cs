@@ -1,10 +1,14 @@
 using API.Data;
+using API.Data.Repositories.user;
 using API.Entities;
+using API.Interfaces.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add services to the container.
 

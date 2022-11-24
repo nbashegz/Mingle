@@ -2,6 +2,7 @@ using API.Data;
 using API.Data.Repositories.user;
 using API.Entities;
 using API.Interfaces.Users;
+using API.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -9,7 +10,8 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 // Add services to the container.
 
 builder.Services.AddControllers();

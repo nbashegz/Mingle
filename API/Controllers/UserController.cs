@@ -1,3 +1,4 @@
+using API.Controllers;
 using API.DTOs.Users;
 using API.Interfaces.Users;
 using API.Utilities;
@@ -5,16 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.controllers;
 
-[ApiController]
-[Route("[controller]")]
-
-public class UserController : Controller
+public class UserController : BaseApiController
 {
     private readonly IUserRepository _userRepository;
     public UserController(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-
     }
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetAllUsers([FromQuery] UserParams userParams)

@@ -12,4 +12,3 @@ public class AutoMapperProfile : Profile
                 .ForMember(d => d.PhoneNumber, opt => opt.MapFrom(s => s.Phonenumber));
             }
         }
-    

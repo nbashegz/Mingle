@@ -1,7 +1,10 @@
 using API.Data;
 using API.Data.Repositories.user;
 using API.Entities;
+using API.Extensions;
+using API.Interfaces.Services;
 using API.Interfaces.Users;
+using API.Service;
 using API.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+builder.Services.AddScoped<ITokenService, TokenService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -21,7 +25,7 @@ builder.Services.AddSwaggerGen(options => {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo{
         Title = "Mingle Api",
         Version = "v1",
-        Description = "Mingle API is a Dating Application",
+        Description = "Mingle API is a Dating Software Application",
         Contact = new OpenApiContact{
             Name = "Eneh-chibuzor Ebube",
             Email = "shegzacademy@gmail.com"
@@ -30,15 +34,8 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 //identity
-builder.Services
-.AddIdentityCore<AppUser>(options => options.User.RequireUniqueEmail = true)
-.AddRoles<AppRole>()
-.AddRoleManager<RoleManager<AppRole>>()
-.AddSignInManager<SignInManager<AppUser>>()
-.AddRoleValidator<RoleValidator<AppRole>>()
-.AddEntityFrameworkStores<MingleDBContext>();
 
-builder.Services.AddAuthentication();
+builder.Services.AddIdentityServices(builder.Configuration);
 //database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MingleDBContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
